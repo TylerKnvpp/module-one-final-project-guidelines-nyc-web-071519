@@ -82,7 +82,8 @@ def recommend_from_popular (restaurant)
         prompt_date_day_of
         save_new_date(couple_id: $LOGGED_IN_ID, restaurant_id: restaurant.id, planned_date: $DAY_OF)
         puts puts %Q(
-            Enjoy your datenight! Shoot for the stars 🌟
+            
+        Enjoy your datenight! Shoot for the stars 🌟
         ).on_black
         launch_past_datenights_menu
     when '2','go back','exit','back','gtfo'

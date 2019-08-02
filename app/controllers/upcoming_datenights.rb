@@ -85,7 +85,24 @@ def view_future_datenights
     end
     header_string = ':: Future Datenights ::'
     show_table(temp_string, header_string)
-    launch_upcoming_datenights_menu
+    
+    puts %Q(
+
+        1. Upcoming datenight's details
+        2. Go back
+    ).on_black
+
+    user_input_fddeets = gets.chomp
+    case user_input_fddeets
+    when '1', 'details', 'upcoming', 'view'
+    upcoming_dates_details_helper
+    when '2', 'exit', 'go back', 'bye', 'gtfo', 'c ya'
+        launch_upcoming_datenights_menu
+    else
+        puts "\nERROR: Please enter a valid option.\n"
+        view_future_datenights
+    end
+
 end
 
 def dates_index_helper
@@ -94,12 +111,16 @@ def dates_index_helper
     datenight_index = 1
 
     dates_array.each do |dn|
-        mt_string = mt_string + "#{datenight_index}. #{dn.restaurant.name.titleize} on #{dn.planned_date}\n\n"
+        mt_string = mt_string + "#{datenight_index}. #{dn.restaurant.name.titleize} on #{dn.planned_date}\n"
         datenight_index += 1
     end
-    puts "\n\n"
-    puts mt_string
-    puts "You have no upcoming dates.\n" if mt_string == ''
+
+    no_dates = "You have no upcoming dates.\n"
+
+    mt_string == '' ? mt_string = no_dates : mt_string
+
+    show_table(mt_string, "Choose Upcoming Datenight\n")
+
 end
 
 
@@ -138,3 +159,51 @@ def give_relationship_advice
     
     launch_upcoming_datenights_menu
 end
+
+
+def display_restaurant_details(restaurant)
+  if restaurant
+        puts %Q(
+
+    Your upcoming datenight is at:
+
+        Name: #{restaurant.name}
+
+        Neighborhood: #{restaurant.neighborhood.titleize}
+
+        Rating: #{restaurant.rating}
+
+        Cost: #{restaurant.price}
+        ).on_black
+    else
+        puts"\nYou have no upcoming datenights."
+    launch_past_datenights_menu
+    end
+end
+
+
+def upcoming_dates_details_helper
+
+    dates_index_helper
+
+    puts %Q(
+If you would like to see details for an upcoming date, enter the number of the date to view. 
+Enter 0 to return to menu.
+    ).on_black
+    user_input_select_upcoming_date = gets.chomp.to_i
+
+    if (user_input_select_upcoming_date == 0)
+        launch_upcoming_datenights_menu
+    elsif (user_input_select_upcoming_date <= user_upcoming_datenights.length)
+        rest = user_upcoming_datenights[(user_input_select_upcoming_date.to_i - 1)*-1].restaurant
+        display_restaurant_details(rest)
+        launch_upcoming_datenights_menu
+    else
+        puts "\nERROR: Please enter a valid option.\n"
+        upcoming_dates_details_helper
+    end
+end
+
+
+
+   

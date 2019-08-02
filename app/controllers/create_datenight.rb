@@ -75,7 +75,8 @@ How would you like to go to #{possible_rest.name.light_cyan}?
         possible_rest.save unless Restaurant.exists?(possible_rest.id)
         save_new_date(couple_id: $LOGGED_IN_ID, restaurant_id: possible_rest.id, planned_date: $DAY_OF)
         puts %Q(
-            Enjoy your datenight! Shoot for the stars 🌟
+
+        Enjoy your datenight! Shoot for the stars 🌟
         ).on_black
         launch_main_menu
     when '2','details','see details','see restaurant details'
